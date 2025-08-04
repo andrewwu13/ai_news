@@ -1,23 +1,60 @@
 import requests
 from bs4 import BeautifulSoup
-import lxml
-import schedule
-import pyautogui
-from selenium import webdriver
 
-"""response = requests.get('https://www.geeksforgeeks.org/python/python-programming-language-tutorial/')
-soup = BeautifulSoup(response.content, 'html.parser')
+url = 'https://venturebeat.com/category/ai/'
+headers = {
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"
+}
+page = requests.get(url, headers=headers)
+soup = BeautifulSoup(page.text, 'html.parser')
 
-content_div = soup.find('div', class_='article--viewer_content')
-if content_div:
-    for para in content_div.find_all('p'):
-        print(para.text.strip())
-else:
-    print("Article content not found.")
-"""
+print(page.status_code)
 
-# create webdriver object 
-driver = webdriver.Firefox() 
+article_titles = soup.find_all("a", class_='ArticleListing__title-link')
+article_info = soup.find_all(class_="ArticleListing__byline")
 
-# get google.co.in 
-driver.get("https://www.google.com/search?sca_esv=ad5ca00f88d0df3b&sxsrf=AE3TifOeFjycoTW8PW_YRC4dnH0LNw97Cw:1754260474357&q=ai+news&tbm=nws&source=univ&tbo=u&sa=X&ved=2ahUKEwiYt6vD2e-OAxX0lokEHUYUL9IQt8YBKAF6BAgZEAM&biw=1920&bih=968&dpr") 
+articles = []
+div_avoid = ['post-boilerplate', 'boilerplate-before', 'boilerplate-after']
+
+#Set amount of articles to look for
+amount = 3
+
+for art,info in zip(article_titles[:amount], article_info[:amount]):
+    href=art.get('href')
+    title=art.get_text(strip=True)
+    author = info.get_text(strip=True, separator=' | ')
+
+    article_page = requests.get(href, headers=headers)
+    article_soup = BeautifulSoup(article_page.text, 'html.parser')
+    main_content_soup = article_soup.find('div', class_='article-content')
+    
+    if main_content_soup:
+        paragraphs = main_content_soup.find_all('p')
+    else:
+        print("Content not found. Skipping...")
+        continue
+
+    #remove unwanted elements
+    filtered_paragraphs = []
+    for p in paragraphs:
+        if not any(
+            parent.name == 'div' and any(
+                avoid in cls for cls in (parent.get('class') or []) for avoid in div_avoid
+            ) for parent in p.parents):
+            filtered_paragraphs.append(p)
+        
+    content = '\n'.join(p.get_text(strip=True) for p in filtered_paragraphs)
+
+    article_dict = {"title": title,
+                    "link": href,
+                    "author_date": author,
+                    "content": content}
+    
+    articles.append(article_dict)
+    
+for article in articles:
+    print(f"TITLE: \n{article['title']}\n")
+    print(f"{article['content']}\n")
+    print("\n----------------------------------\n")
+
+#roughly 2k tokens per article
