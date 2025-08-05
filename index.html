@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>AI_news</title>
+        <title>NewKnew</title>
         <link rel="stylesheet" href="styles.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,9 +11,10 @@
             href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
             rel="stylesheet"
         />
+        <script></script>
+
     </head>
     <body>
-
         <header class="header">
             <div class="title">Daily AI Breakdown</div>
         </header>
@@ -29,22 +30,16 @@
             </div>
         </div>
         <div class="article-grid">
-            <div class="article-preview">
+            <div class="article-preview" id="article-preview">
                 <div class="article">
                     <img src="https://picsum.photos/160/90" alt="" class="article-image" />
                     <div class="article-content">
-                        <p class="article-title">Title</p>
-                        <p class="article-credit">Author: John Doe</p>
-                        <p class="article-date">Date: 07/12</p>
+                        <p class="article-title">{{ title }}</p>
+                        <p class="article-author">{{ author }}</p>
+                        <p class="article-date">{{ date }}</p>
                     </div>
                 </div>
-                <p class="article-summary">
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                    culpa qui officia deserunt mollit anim id est laborum."
-                </p>
+                <p class="article-summary">{{ summary }}</p>
             </div>
             <div class="watch-list">
                 <p class="watch-list-title">Title</p>
@@ -65,4 +60,5 @@
             </div>
         </div>
     </body>
+    <script src="loadArticles.js"></script>
 </html>
