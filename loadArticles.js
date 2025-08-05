@@ -1,19 +1,31 @@
 fetch('articles.json')
     .then((res) => res.json())
     .then((data) => {
-        const article = data[0]; // or loop over all
         const preview = document.getElementById('article-preview');
-        const formattedContent = article.content.replace(/\n/g, '<br>');
+        preview.innerHTML = ''; // Clear any existing content
 
-        preview.innerHTML = `
-            <div class="article">
-                <img src="${article.img}" alt="" class="article-image" />
-                <div class="article-content">
-                    <p class="article-title">${article.title}</p>
-                    <p class="article-author">${article.author}</p>
-                    <p class="article-date">${article.date}</p>
+        for (var i = 0; i < data.length; i++) {
+            const article = data[i];
+            const formattedContent = article.content.replace(/\n/g, '<br>');
+
+            const articleElement = document.createElement('div');
+            articleElement.classList.add('article-wrapper');
+            articleElement.innerHTML = `
+                <div class="article">
+                    <img src="${article.img}" alt="" class="article-image" />
+                    <div class="article-content">
+                        <p class="article-title">${article.title}</p>
+                        <p class="article-author">${article.author}</p>
+                        <p class="article-date">${article.date}</p>
+                    </div>
                 </div>
-            </div>
-            <p class="article-summary">${formattedContent}</p>
-        `;
+                <p class="article-summary">${formattedContent}</p>
+            `;
+            preview.appendChild(articleElement);
+        }
+    })
+    .catch((err) => {
+        console.error("Failed to load articles.json:", err);
+        const preview = document.getElementById('article-preview');
+        preview.innerHTML = '<p style="font-size: 20px; color: #555;">No articles available at the moment.</p>';
     });
