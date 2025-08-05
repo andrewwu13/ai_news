@@ -53,7 +53,7 @@ def run_scraper_vb(url, amount):
                 ) for parent in p.parents):
                 filtered_paragraphs.append(p)
             
-        content = '\n'.join(p.get_text(seperators=' ', strip=True) for p in filtered_paragraphs)
+        content = '\n'.join(p.get_text(separator=' ', strip=True) for p in filtered_paragraphs)
 
         article_dict = {"title": title,
                         "link": href,
