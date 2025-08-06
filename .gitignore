@@ -28,3 +28,6 @@ node_modules/
 
 # JSON objects (Run locally)
 articles.json
+
+#temp files
+tempTestSummary.js
