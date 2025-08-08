@@ -1,5 +1,7 @@
 # 📰 NewKnew - AI-powered News Scraper % Summarizer
 
+##CURRENTLY UNDER DEVELOPMENT
+
 This project fetches the latest AI-related news articles from 
 - [VentureBeat](https://venturebeat.com/category/ai/)
 
