@@ -80,6 +80,18 @@ body.dark-mode img {
     display: block;
 }
 
+body,
+.nav-bar,
+.article,
+.article-wrapper,
+.nav-btn,
+.nav-link,
+.watch-list,
+.watch-list-item {
+  transition: background-color 0.25s ease, color 0.25s ease, filter 0.25s ease;
+}
+
+
 a {
     text-decoration: none;
     color: inherit;
