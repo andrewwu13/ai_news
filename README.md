@@ -7,7 +7,7 @@ It parses the content using a Python web scraper, and displays them in a styled 
 ## About 
 
 I was recently inspired by my Instagram reels FYP which has been bombarding me with videos on the latest developments in AI. I've been binging content about startup launches, research updates, and funding rounds. So I thought: 
-> "All of this is way too much, why not build something to keep track for me?"
+> "All of this is way too much to keep up with, why not build something to keep track for me?"
 
 That's why I'm building **NewKnew** - a personal tool that **scrapes, organizes, and summarizes daily AI tech news** into ultra-condensed insights.
 
