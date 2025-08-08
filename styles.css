@@ -12,9 +12,48 @@
 }
 body {
     min-height: 100vh;
-    background: light-dark(rgb(228, 225, 218), rgb(12, 12, 12));
+    background: rgb(228, 225, 218);
     color: #1a1a1a;
 }
+
+/* Dark mode styles */
+body.dark-mode {    
+    background-color: rgb(12, 12, 12);
+    color: white;
+}
+body.dark-mode .nav-bar {
+    background: rgb(12, 12, 12);
+    color: white;
+}
+body.dark-mode .nav-link,
+body.dark-mode .nav-title {
+    color: white;
+}
+body.dark-mode .nav-btn {
+    background-color: white;
+    color: black;
+}
+body.dark-mode .nav-btn:hover {
+    background: rgb(176, 176, 176);
+}
+
+body.dark-mode .article,
+body.dark-mode .article-wrapper {
+    background-color: #393E46;
+}
+body.dark-mode .article-wrapper p {
+    color: white;
+}
+body.dark-mode .watch-list {
+    background-color: #1e293b;
+    color: white;
+}
+body.dark-mode .watch-list-item {
+    background-color: #2f3e55;
+}
+
+
+
 a {
     text-decoration: none;
     color: inherit;
@@ -38,7 +77,7 @@ ul {
     left: 0;
     width: 100vw;
     height: 64px;
-    background: light-dark(rgb(228, 225, 218), rgb(12, 12, 12));
+    background:  rgb(228, 225, 218);
     z-index: 1000;
     padding: 0 40px 0 24px;
 }
@@ -47,11 +86,11 @@ ul {
     font-size: 24px;
     font-weight: 600;
     letter-spacing: 0.15em;
-    color: light-dark(black, white);
+    color: black;
 }
 .nav-btn {
-    background: light-dark(rgb(12, 12, 12), rgb(198, 198, 198));
-    color: light-dark(rgb(255, 255, 255), rgb(0, 0, 0));
+    background: rgb(12, 12, 12);
+    color: white;
     border: none;
     border-radius: 12px;
     padding: 12px 32px;
@@ -78,7 +117,7 @@ ul {
     margin-right: 16px;
     color: black;
     font-weight: 400;
-    color: light-dark(black, white);
+    color: black;
 }
 .nav-link:hover {
     text-decoration: underline;
@@ -92,7 +131,7 @@ ul {
     height: 40px;
     margin-top: 64px;
 }
-.dark-mode {
+.dark-mode-toggle {
     background: black;
     color: #fff;
     border: none;
@@ -105,7 +144,7 @@ ul {
         background 0.2s,
         transform 0.2s;
 }
-.dark-mode:hover {
+.dark-mode-toggle:hover {
     background: rgb(40, 40, 40);
 }
 
@@ -120,7 +159,7 @@ ul {
     display: grid;
 }
 .article {
-    background-color: light-dark(rgb(255, 255, 255), rgb(77, 76, 72));
+    background-color: rgb(255, 255, 255);
     position: relative;
     display: flex;
     flex-flow: row;
@@ -135,14 +174,14 @@ ul {
 }
 .article-wrapper {
     position: relative;
-    background-color: light-dark(rgb(255, 255, 255), rgb(77, 76, 72));
+    background-color: rgb(255, 255, 255);
     padding: 16px;
     border-radius: 10px;
     width: 100%;
     max-width: 1000px;
 }
 .article-wrapper p {
-    color: light-dark(rgb(255, 255, 255), rgb(210, 210, 210));
+    color: black;
 }
 .article-preview {
     overflow-y: auto;
@@ -173,14 +212,22 @@ ul {
     font-weight: 200;
 }
 
+
+
+
 .watch-list {
     position: sticky;
     top: 120px;
     height: calc(100vh - 120px);
     overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflower-style: none;
     border-radius: 10px;
-    background-color: #1e293b;
+    background-color: white;
     z-index: 100;
+}
+.watchlist::-webkit-scrollbar {
+    display:none;
 }
 .watch-list-title {
     font-size: 30px;
@@ -189,9 +236,14 @@ ul {
 }
 .watch-list-item {
     position: relative;
-    background-color: #334155;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(212, 212, 212);
     margin-right: 16px;
     margin-left: 16px;
     height: 100px;
     margin-bottom: 16px;
+    border-radius: 16px;
+    padding-left: 10px;
 }
