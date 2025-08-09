@@ -3,8 +3,27 @@ from bs4 import BeautifulSoup
 import schedule
 import time
 import json
+import psycopg2
+from datetime import datetime
+from dotenv import load_dotenv
+import os
 
 #roughly 2k tokens per article
+
+#load environment variables
+load_dotenv() 
+
+db_password = os.getenv("db_password")
+
+#Connect to PostgreSQL
+conn = psycopg2.connect(
+    dbname="ai_news",
+    user="andrewwu",
+    password=db_password,
+    host="127.0.0.1",
+    port="5432"
+)
+cur = conn.cursor()
 
 
 def run_scraper_vb(url, amount):
@@ -20,7 +39,6 @@ def run_scraper_vb(url, amount):
     article_info = soup.find_all(class_="ArticleListing__byline")
     article_img = soup.find_all(class_="ArticleListing__image wp-post-image")
 
-    articles = []
     div_avoid = ['post-boilerplate', 'boilerplate-before', 'boilerplate-after']
 
     for art,info,im in zip(article_titles[:amount], article_info[:amount], article_img[:amount]):
@@ -55,26 +73,28 @@ def run_scraper_vb(url, amount):
             
         content = '\n'.join(p.get_text(separator=' ', strip=True) for p in filtered_paragraphs)
 
-        article_dict = {"title": title,
-                        "link": href,
-                        "author": author,
-                        "date": date,
-                        "img": img,
-                        "content": content}
-        
-        articles.append(article_dict)
+        #insert into database
+        cur.execute("SELECT id FROM articles WHERE url = %s", (href,))
+        if cur.fetchone():
+            print(f"skipping duplicate: {title}")
+            continue
 
-    for article in articles:
-        print(f"TITLE: \n{article['title']}")
-        print(f"AUTHOR: \n{article['author']}")
-        print(f"DATE: \n{article['date']}")
-        print(f"img: \n{article['img']}\n")
-        print(f"{article['content']}\n")
-        print("\n----------------------------------\n")
-    
-    #schedule.every().day.at("09:00").do(run_scraper_vb('https://venturebeat.com/category/ai/', 5))
+        cur.execute("""
+            INSERT INTO articles (title, summary, url, image_url, category, date_published, author)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """, (
+            title,
+            content, #store full text in summary for now
+            href,
+            img,
+            'AI', #static for now
+            date,
+            author
+        ))
+        print(f"Inserted article: {title}")
 
-    return articles
+    conn.commit()
+    print("Database updated with new articles")
 
 
 ### Scheduled scrape everyday
@@ -86,8 +106,7 @@ try:
 except KeyboardInterrupt:
     print('\nScraper stopped.\n')"""
 
-articles = run_scraper_vb('https://venturebeat.com/category/ai/', 5)
+run_scraper_vb('https://venturebeat.com/category/ai/', 5)
 
-
-with open("articles.json", "w", encoding="utf-8") as f:
-    json.dump(articles, f, ensure_ascii=False, indent=2)
+cur.close()
+conn.close()
