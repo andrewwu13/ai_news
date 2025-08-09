@@ -1,0 +1,26 @@
+{
+  "name": "ai_news",
+  "version": "1.0.0",
+  "description": "This project fetches the latest AI-related news articles from  - [VentureBeat](https://venturebeat.com/category/ai/)",
+  "main": "loadArticles.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrewwu13/ai_news.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/andrewwu13/ai_news/issues"
+  },
+  "homepage": "https://github.com/andrewwu13/ai_news#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "pg": "^8.16.3"
+  }
+}
