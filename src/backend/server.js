@@ -2,7 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import pkg from 'pg';
 const { Pool } = pkg;
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
+import { exec } from 'child_process';
 
 dotenv.config();
 const db_password = process.env.db_password;
@@ -18,6 +19,20 @@ const pool = new Pool({
     port: 5432,
 });
 
+app.post('/refresh-articles', async (req, res) => {
+    exec(`python3 ${process.cwd()}/src/backend/scripts/webscraper.py`, (error, stdout, stderr) => {
+        console.log('STDOUT:', stdout);
+        console.log('STDERR:', stderr);
+        if (error) {
+            console.error(`Exec Error: ${error.message}`);
+            return res.status(500).json({ error: error.message, stderr });
+        }
+        if (stderr) console.error(`stderr: ${stderr}`);
+        console.log(`stdout: ${stdout}`);
+        res.json({ message: 'Articles refreshed' });
+    });
+});
+
 app.get('/articles', async (req, res) => {
     try {
         const { rows } = await pool.query('SELECT * FROM articles ORDER BY date_published DESC');
@@ -28,7 +43,6 @@ app.get('/articles', async (req, res) => {
 });
 
 app.listen(5001, () => console.log('Server running on port 5001'));
-
 
 //database has items, present something to frontend
 //when fetch, internal operation, server prepares data, create connection pool to database

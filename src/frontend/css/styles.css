@@ -88,9 +88,11 @@ body,
 .nav-link,
 .watch-list,
 .watch-list-item {
-  transition: background-color 0.25s ease, color 0.25s ease, filter 0.25s ease;
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease,
+        filter 0.25s ease;
 }
-
 
 a {
     text-decoration: none;
@@ -169,11 +171,33 @@ ul {
     height: 40px;
     margin-top: 64px;
 }
-.dark-mode-toggle {
+
+.bottom-btns {
     position: fixed;
-    bottom: 2vh;
+    bottom: 1vh;
     left: 2vh;
-    height: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.refresh-btn {
+    background: linear-gradient(90deg, #3b82f6 0%, #6366f1 100%);
+    transition: background 0.2s;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 4px;
+    margin: 10px;
+}
+.refresh-btn:hover {
+    background: linear-gradient(90deg, #6366f1 0%, #3b82f6 100%);
+}
+
+.dark-mode-toggle {
+        height: 40px;
     width: 40px;
     padding: 0;
     border: none;
