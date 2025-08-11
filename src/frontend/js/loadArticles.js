@@ -1,19 +1,31 @@
 document.getElementById("refresh-articles").addEventListener('click', async () => {
+    const button = document.getElementById("refresh-articles");
+    button.textContent = "Loading...";
     try {
         const scrapeResponse = await fetch('http://127.0.0.1:5001/refresh-articles', {method: 'POST'});
         if (!scrapeResponse.ok) throw new Error("Failed to refresh articles");
 
-        const response = await fetch('http://127.0.0.1:5001/articles');
-        if (!response.ok) throw new Error('Failed to fetch articles');
-        const articles = await response.json();
-        //console.log('Articles: ', articles);
-
-        renderArticles(articles);
+        await loadArticles();
+        button.textContent = "Done!";
+        setTimeout(() => {
+            button.textContent = "Refresh";
+        }, 1000);
     } catch (err) {
-        console.error("Error refreshing articles:", err)
+        console.error("Error refreshing articles:", err);
+        button.textContent = "Refresh";
     }
 });
 
+async function loadArticles() {
+    try {
+        const response = await fetch('http://127.0.0.1:5001/articles');
+        if (!response.ok) throw new Error('Failed to fetch articles');
+        const articles = await response.json();
+        renderArticles(articles);
+    } catch (err) {
+        console.error("Error loading articles:", err);
+    }
+}
 
 function renderArticles(articles) {
     const preview = document.getElementById('article-preview');
@@ -48,3 +60,5 @@ function renderArticles(articles) {
         preview.appendChild(articleElement);
     }
 }
+
+loadArticles();
