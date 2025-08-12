@@ -87,7 +87,8 @@ body,
 .nav-btn,
 .nav-link,
 .watch-list,
-.watch-list-item {
+.watch-list-item,
+.hamburger-menu {
     transition:
         background-color 0.25s ease,
         color 0.25s ease,
@@ -119,7 +120,25 @@ ul {
     height: 64px;
     background: var(--base-color);
     z-index: 1000;
-    padding: 0 40px 0 24px;
+    padding: 0 40px 0 10px;
+}
+
+.hamburger-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    border: none;
+    border-radius: 10px;
+    padding: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+    background-color: var(--base-color);
+}
+.hamburger-menu svg {
+    fill: var(--text-color);
+    width: 28px;
+    height: 28px;
 }
 
 .nav-title {
@@ -174,12 +193,13 @@ ul {
 
 .bottom-btns {
     position: fixed;
-    bottom: 1vh;
+    bottom: 2vh;
     left: 2vh;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    gap: 10px;
 }
 
 .refresh-btn {
@@ -190,14 +210,13 @@ ul {
     cursor: pointer;
     font-size: 14px;
     border-radius: 4px;
-    margin: 10px;
 }
 .refresh-btn:hover {
     background: linear-gradient(90deg, #6366f1 0%, #3b82f6 100%);
 }
 
 .dark-mode-toggle {
-        height: 40px;
+    height: 40px;
     width: 40px;
     padding: 0;
     border: none;
