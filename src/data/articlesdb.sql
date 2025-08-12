@@ -1,12 +1,13 @@
 CREATE TABLE articles (
     id SERIAL PRIMARY KEY,
     title TEXT NOT NULL,
-    summary TEXT,
+    full_content TEXT,
     url TEXT NOT NULL,
     image_url TEXT,
     category TEXT,
     date_published TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    author TEXT
+    author TEXT,
+    summary TEXT
 );
 
 CREATE TABLE topics (

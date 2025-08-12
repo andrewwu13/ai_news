@@ -80,7 +80,7 @@ def run_scraper_vb(url, amount):
             continue
 
         cur.execute("""
-            INSERT INTO articles (title, summary, url, image_url, category, date_published, author)
+            INSERT INTO articles (title, full_content, url, image_url, category, date_published, author)
             VALUES (%s, %s, %s, %s, %s, %s, %s)
         """, (
             title,
@@ -92,6 +92,7 @@ def run_scraper_vb(url, amount):
             author
         ))
         print(f"Inserted article: {title}")
+        print(f"Content: {content[:100]}..." )
 
     conn.commit()
     print("Database updated with new articles")

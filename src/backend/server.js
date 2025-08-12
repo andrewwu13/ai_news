@@ -4,12 +4,15 @@ import pkg from 'pg';
 const { Pool } = pkg;
 import dotenv from 'dotenv';
 import { exec } from 'child_process';
+import { summarizeArticle } from './api/openAI.js';
+import e from 'express';
 
 dotenv.config();
 const db_password = process.env.db_password;
 
 const app = express();
 app.use(cors({ origin: '*' }));
+app.use(express.json());
 
 const pool = new Pool({
     user: 'andrewwu',
@@ -33,6 +36,16 @@ app.post('/refresh-articles', async (req, res) => {
     });
 });
 
+app.post('/api/summarize', async(req, res) => {
+    try {
+        const article = req.body;
+        const summary = await summarizeArticle(article);
+        res.json({ summary });
+    } catch (error) {
+        res.status(500).json({ error: error.message});
+    }
+});
+
 app.get('/articles', async (req, res) => {
     try {
         const { rows } = await pool.query('SELECT * FROM articles ORDER BY date_published DESC');
@@ -41,6 +54,8 @@ app.get('/articles', async (req, res) => {
         res.status(500).json({ error: 'Database query error' });
     }
 });
+
+
 
 app.listen(5001, () => console.log('Server running on port 5001'));
 

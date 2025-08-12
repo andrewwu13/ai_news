@@ -21,27 +21,27 @@ Author: Andrew Wu
 ---
 ## Features
 - Scrapes titles, authors, dates, images, and content from articles
-- Outputs clean JSON
+- Summarizes and outputs articles into informative 30-sec reads
+- Watchlist for any major headlines, breakthroughs, and rising startups
 - Responsive frontend with interactive elements
 ---
 ## How to Run
 ### 1. Install dependencies
 ```bash
-pip install beautifulsoup4 requests schedule
+pip install beautifulsoup4 requests schedule 
 ```
-### 2. Run scraper (Will become scheduled)
+Must be using LiveServer plugin to run
+### 2. Start server
 ```bash
-python webscraper.py
+node src/backend/server.js
 ```
-This will update articles.json
-> Make sure articles.json exists before opening website (subject to change)
 ### 3. Open Website
-Open hero.html in a browser:
-```bash
-open index.html
-```
+Open hero.html with LiveServer:
+> If no articles are intially loaded, please use refresh button on the bottom left
+
 ## Notes
-- articles.json is .gitignored to avoid continuous changes every commit
+- Articles are locally stored within a PostgreSQL db, so there will be no initial articles stored
+ 
 
 ## Plans
 - Live update with auto-scheduling
