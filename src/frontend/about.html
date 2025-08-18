@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>NewKnew</title>
         <link rel="stylesheet" href="css/styles.css" />
+        <link rel="stylesheet" href="css/about.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
@@ -71,63 +72,20 @@
                     />
                 </svg>
             </button>
-            <button id="refresh-articles" class="refresh-btn">Refresh</button>
         </div>
         <div class="spacer"></div>
-        <div class="page-container">
-            <div class="article-grid">
-                <div class="article-preview" id="article-preview">
-                    <div class="article">
-                        <img src="https://picsum.photos/160/90" alt="" class="article-image" />
-                        <div class="article-content">
-                            <p class="article-title">{{ title }}</p>
-                            <p class="article-author">{{ author }}</p>
-                            <p class="article-date">{{ date }}</p>
-                        </div>
-                    </div>
-                    <p class="article-summary">{{ summary }}</p>
+        <div class="about-page-container">
+            <div class="grid-start">
+                <h1 class="grid-title">About NewKnew</h1>
+                <div class="grid-info">
+                    <h2>
+                        We use AI to analyze and summarize trending articles, saving you time and ensuring you don't
+                        miss key insights.
+                    </h2>
                 </div>
-            </div>
-            <div class="watch-list">
-                <p class="watch-list-title">Title</p>
-                <ul class="watch-list-items">
-                    <li class="watch-list-item">
-                        <a href="#">Watchlist</a>
-                    </li>
-                    <li class="watch-list-item">
-                        <a href="#">Watchlist</a>
-                    </li>
-                    <li class="watch-list-item">
-                        <a href="#">Watchlist</a>
-                    </li>
-                    <li class="watch-list-item">
-                        <a href="#">Watchlist</a>
-                    </li>
-                    <li class="watch-list-item">
-                        <a href="#">Watchlist</a>
-                    </li>
-                    <li class="watch-list-item">
-                        <a href="#">Watchlist</a>
-                    </li>
-                    <li class="watch-list-item">
-                        <a href="#">Watchlist</a>
-                    </li>
-                    <li class="watch-list-item">
-                        <a href="#">Watchlist</a>
-                    </li>
-                    <li class="watch-list-item">
-                        <a href="#">Watchlist</a>
-                    </li>
-                    <li class="watch-list-item">
-                        <a href="#">Watchlist</a>
-                    </li>
-                    <li class="watch-list-item">
-                        <a href="#">Watchlist</a>
-                    </li>
-                </ul>
+                <div class="grid-divider-two"></div>
             </div>
         </div>
     </body>
-    <script src="js/loadArticles.js" type="module" defer></script>
     <script src="js/toggle-dark.js" defer></script>
 </html>
