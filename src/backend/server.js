@@ -48,14 +48,17 @@ app.post('/api/summarize', async(req, res) => {
 
 app.get('/articles', async (req, res) => {
     try {
-        const { rows } = await pool.query('SELECT * FROM articles ORDER BY date_published DESC');
-        res.json(rows);
+        const { rows } = await pool.query(
+            'SELECT * FROM articles ORDER BY date_published DESC'
+        );
+        res.json({
+            articles: rows || []
+        });
     } catch (err) {
-        res.status(500).json({ error: 'Database query error' });
+        console.error('Database error:', err);
+        res.status(500).json({ articles: [], error: 'Database query error' });
     }
 });
-
-
 
 app.listen(5001, () => console.log('Server running on port 5001'));
 
