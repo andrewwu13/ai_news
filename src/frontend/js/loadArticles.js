@@ -7,12 +7,10 @@ loadArticles();
 
 //check when user scrolls near bottom
 window.addEventListener('scroll', async () => {
-    if (!allArticlesRendered &&
-        window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
+    if (!allArticlesRendered && window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
         loadArticles();
     }
 });
-
 
 document.getElementById('refresh-articles').addEventListener('click', async () => {
     const button = document.getElementById('refresh-articles');
@@ -37,7 +35,6 @@ document.getElementById('refresh-articles').addEventListener('click', async () =
     }
 });
 
-
 async function loadArticles() {
     if (allArticlesRendered) return;
 
@@ -51,9 +48,9 @@ async function loadArticles() {
             allArticlesRendered = true;
             return;
         }
-        
+
         // Filter out articles already rendered
-        const newArticles = articles.filter(article => !renderedArticles.has(article.id));
+        const newArticles = articles.filter((article) => !renderedArticles.has(article.id));
 
         if (!newArticles.length) {
             allArticlesRendered = true;
@@ -66,49 +63,50 @@ async function loadArticles() {
     }
 }
 
-const observer = new IntersectionObserver(async (entries, observer) => {
-    for (const entry of entries) {
-        if (entry.isIntersecting) {
-            const articleElement = entry.target;
-            const articleId = articleElement.getAttribute('data-article-id');
-            if (!articleId) {
-                observer.unobserve(articleElement);
-                continue;
-            }
-            const articleData = articleElement.articleData;
-            if (!articleData) {
-                observer.unobserve(articleElement);
-                continue;
-            }
-
-            // Populate article content when visible
-            let formattedContent = '';
-            try {
-                const result = await getOpenAIResponse({
-                    title: articleData.title,
-                    full_content: articleData.full_content ?? '',
-                });
-                formattedContent = result.summary.replace(/\n/g, '<br>') || 'No summary available';
-            } catch (e) {
-                console.error('OpenAI summary error', e);
-                formattedContent = (articleData.full_content ?? '').slice(0, 200) + '...'; //fallback
-            }
-
-            const dateStr = articleData.date_published || '';
-            let formattedDate = 'No date available';
-            if (dateStr) {
-                const dateObj = new Date(dateStr);
-                if (!isNaN(dateObj)) {
-                    formattedDate = dateObj.toLocaleDateString(undefined, {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric',
-                    });
+const observer = new IntersectionObserver(
+    async (entries, observer) => {
+        for (const entry of entries) {
+            if (entry.isIntersecting) {
+                const articleElement = entry.target;
+                const articleId = articleElement.getAttribute('data-article-id');
+                if (!articleId) {
+                    observer.unobserve(articleElement);
+                    continue;
                 }
-            }
+                const articleData = articleElement.articleData;
+                if (!articleData) {
+                    observer.unobserve(articleElement);
+                    continue;
+                }
 
-            articleElement.innerHTML = `
-                <div class="article">
+                // Populate article content when visible
+                let formattedContent = '';
+                try {
+                    const result = await getOpenAIResponse({
+                        title: articleData.title,
+                        full_content: articleData.full_content ?? '',
+                    });
+                    formattedContent = result.summary.replace(/\n/g, '<br>') || 'No summary available';
+                } catch (e) {
+                    console.error('OpenAI summary error', e);
+                    formattedContent = (articleData.full_content ?? '').slice(0, 200) + '...'; //fallback
+                }
+
+                const dateStr = articleData.date_published || '';
+                let formattedDate = 'No date available';
+                if (dateStr) {
+                    const dateObj = new Date(dateStr);
+                    if (!isNaN(dateObj)) {
+                        formattedDate = dateObj.toLocaleDateString(undefined, {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric',
+                        });
+                    }
+                }
+
+                articleElement.innerHTML = `
+                <div class="article" >
                     <img src="${articleData.image_url}" alt="" class="article-image" loading="lazy" />
                     <div class="article-content">
                         <a href="${articleData.url}" class="article-title">${articleData.title}</a>
@@ -119,13 +117,15 @@ const observer = new IntersectionObserver(async (entries, observer) => {
                 <p class="article-summary">${formattedContent}</p>
             `;
 
-            observer.unobserve(articleElement);
+                observer.unobserve(articleElement);
+            }
         }
+    },
+    {
+        rootMargin: '0px 0px 200px 0px',
+        threshold: 0.1,
     }
-}, {
-    rootMargin: '0px 0px 200px 0px',
-    threshold: 0.1
-});
+);
 
 async function renderArticles(articles) {
     console.log('Rendering articles:', articles);
@@ -133,7 +133,7 @@ async function renderArticles(articles) {
         console.error('Articles is not an array', articles);
         return;
     }
-    
+
     const preview = document.getElementById('article-preview');
 
     for (const article of articles) {
@@ -149,7 +149,6 @@ async function renderArticles(articles) {
             articleElement.setAttribute('data-article-id', article.id);
             articleElement.innerHTML = `<p>Loading article...</p>`;
             articleElement.articleData = article; // store article data for lazy loading
-
             preview.appendChild(articleElement);
             observer.observe(articleElement);
         }

@@ -17,3 +17,15 @@ const offScreenMenu = document.querySelector('.off-screen-menu');
 hamMenu.addEventListener('click', () => {
     offScreenMenu.classList.toggle('active');
 });
+
+function toggleContent(header) {
+    const content = header.nextElementSibling;
+    const arrow = header.querySelector('.arrow');
+
+    if (content.style.display === 'block') {
+    content.style.display = 'none';
+    arrow.classList.remove('open');
+    } else {
+    content.style.display = 'block';
+    arrow.classList.add('open');
+}}
